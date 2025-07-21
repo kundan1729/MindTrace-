@@ -1,0 +1,40 @@
+# Java compiled files
+*.class
+out/
+
+# IDE files
+.vscode/
+.idea/
+*.iml
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Local environment files
+.env
+.env.local
+
+# Docker volumes
+docker-data/
+
+# Node modules (if any frontend tools are added later)
+node_modules/
+
+# Build artifacts
+build/
+dist/
+target/
+
+RAILWAY.md
+DEPLOY.md

@@ -1,0 +1,27 @@
+# Ignore build artifacts
+out/
+*.class
+
+# Ignore development files
+.git/
+.gitignore
+interview-prep.txt
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore IDE files
+.vscode/
+.idea/
+*.iml
+
+# Ignore logs
+*.log
+
+# Ignore local Docker files (keep Railway-specific ones)
+Dockerfile
+Dockerfile.distroless
+
+# Ignore deployment docs (keep them in repo but not in image)
+DEPLOY.md

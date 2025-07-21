@@ -1,0 +1,82 @@
+{
+  "1": {
+    "id": "1",
+    "title": "Java Basics",
+    "description": "Variables, Loops, Control Structures",
+    "connections": {
+      "2": 87
+    }
+  },
+  "2": {
+    "id": "2",
+    "title": "OOP Concepts",
+    "description": "Classes, Objects, Inheritance, Polymorphism",
+    "connections": {
+      "3": 70
+    }
+  },
+  "3": {
+    "id": "3",
+    "title": "Collections",
+    "description": "Lists, Maps, Sets, Streams",
+    "connections": {}
+  },
+  "m1": {
+    "id": "m1",
+    "title": "MERN Stack",
+    "description": "this is comprehensive roadmap of MERN",
+    "connections": {
+      "m2": 100
+    }
+  },
+  "m2": {
+    "id": "m2",
+    "title": "HTML, CSS, JS",
+    "description": "",
+    "connections": {
+      "m3": 100,
+      "m4": 100
+    }
+  },
+  "m3": {
+    "id": "m3",
+    "title": "ReactJS",
+    "description": "",
+    "connections": {}
+  },
+  "m4": {
+    "id": "m4",
+    "title": "Nodejs",
+    "description": "",
+    "connections": {
+      "m5": 100,
+      "m6": 100
+    }
+  },
+  "aws2": {
+    "id": "aws2",
+    "title": "IAM",
+    "description": "",
+    "connections": {}
+  },
+  "m5": {
+    "id": "m5",
+    "title": "Express",
+    "description": "",
+    "connections": {}
+  },
+  "aws1": {
+    "id": "aws1",
+    "title": "AWS",
+    "description": "",
+    "connections": {
+      "aws2": 100
+    }
+  },
+  "m6": {
+    "id": "m6",
+    "title": "MongoDB",
+    "description": "",
+    "connections": {}
+  }
+}
