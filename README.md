@@ -268,26 +268,3 @@ Potential improvements for future versions:
 ---
 
 **Happy Knowledge Organizing with Rekno! 🧠📚✨** 
-
-
-
-
-
-
-
-
-
-
-Quick Implementation Ideas:
-Add a category field to nodes
-Add a decayRate property to connections
-Allow users to mark connections as "important"
-Track "last accessed" timestamps
-
-Keep it single-user for now and focus on:
-
-Polish the current features ✨
-Implement the decay rate enhancements 📈
-Add comprehensive documentation 📚
-Write clean, well-commented code 🧹
-Deploy it somewhere public (Heroku/Railway) 🌐
