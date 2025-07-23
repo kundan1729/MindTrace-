@@ -19,10 +19,15 @@
         <!-- Header with Theme Toggle -->
         <div class="header glass-card">
             <h1>🧠 Rekno</h1>
-            <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Mode">
-                <span id="themeIcon">🌙</span>
-                <span id="themeText">Dark</span>
-            </button>
+            <div class="header-controls">
+                <button class="guide-btn" onclick="window.location.href='guide.html'" title="Open User Guide">
+                    ❓ User Guide
+                </button>
+                <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Mode">
+                    <span id="themeIcon">🌙</span>
+                    <span id="themeText">Dark</span>
+                </button>
+            </div>
         </div>
         
         <!-- Search Section -->
@@ -43,7 +48,7 @@
             <!-- Action Buttons -->
             <div class="action-buttons">
                 <button id="saveBtn" class="btn-success">💾 Save Graph</button>
-                <button id="decayBtn" class="btn-warning">⏲️ Apply Decay (5%)</button>
+                <button id="decayBtn" class="btn-warning">⏲️ Daily Decay (5%)</button>
                 <button id="exportBtn" class="btn-secondary">📄 Export PDF</button>
                 <button id="zoomInBtn" class="btn-secondary">🔍+ Zoom In</button>
                 <button id="zoomOutBtn" class="btn-secondary">🔍- Zoom Out</button>

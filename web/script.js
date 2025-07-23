@@ -1,10 +1,374 @@
 /* ──────────────────────────────────────────────────────────────
    Rekno – Enhanced Front‑End Logic
    Features: Dark/Light theme, modern UI/UX, better feedback, 
-            loading states, improved animations, enhanced UX
+            loading states, improved animations, enhanced UX,
+            onboarding, tooltips, debounced search
 ──────────────────────────────────────────────────────────────── */
 
 let network, data, currentId = null;
+
+/* ------------ Onboarding & First-time User Experience ------------ */
+class OnboardingManager {
+  constructor() {
+    this.isFirstVisit = !localStorage.getItem('rekno_visited');
+    this.init();
+  }
+
+  init() {
+    if (this.isFirstVisit) {
+      this.showWelcomeModal();
+      localStorage.setItem('rekno_visited', 'true');
+    }
+  }
+
+  showWelcomeModal() {
+    const modal = document.createElement('div');
+    modal.className = 'onboarding-modal';
+    modal.innerHTML = `
+      <div class="modal-backdrop"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>🎉 Welcome to Rekno!</h2>
+          <button class="close-btn" onclick="this.closest('.onboarding-modal').remove()">×</button>
+        </div>
+        <div class="modal-body">
+          <p>Your personal knowledge organizer is ready! Here's how to get started:</p>
+          <div class="onboarding-steps">
+            <div class="step">
+              <span class="step-icon">1️⃣</span>
+              <div>
+                <h4>Create Your First Node</h4>
+                <p>Use the form below to add your first knowledge node</p>
+              </div>
+            </div>
+            <div class="step">
+              <span class="step-icon">2️⃣</span>
+              <div>
+                <h4>Connect Ideas</h4>
+                <p>Add related nodes by referencing parent IDs</p>
+              </div>
+            </div>
+            <div class="step">
+              <span class="step-icon">3️⃣</span>
+              <div>
+                <h4>Explore & Learn</h4>
+                <p>Click, drag, zoom, and watch your knowledge grow!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-secondary" onclick="window.open('guide.html', '_blank')">📖 Read Full Guide</button>
+          <button class="btn-primary" onclick="this.closest('.onboarding-modal').remove()">🚀 Get Started</button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+    
+    // Add modal styles
+    if (!document.querySelector('#onboarding-styles')) {
+      const styles = document.createElement('style');
+      styles.id = 'onboarding-styles';
+      styles.textContent = `
+        .onboarding-modal {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 10000;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        
+        .modal-backdrop {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.5);
+          backdrop-filter: blur(4px);
+        }
+        
+        .modal-content {
+          background: var(--background-white);
+          border-radius: 1rem;
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+          max-width: 500px;
+          width: 90%;
+          position: relative;
+          animation: modalSlideIn 0.3s ease;
+        }
+        
+        .modal-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 2rem 2rem 1rem 2rem;
+          border-bottom: 1px solid var(--border-200);
+        }
+        
+        .modal-header h2 {
+          margin: 0;
+          color: var(--text-900);
+        }
+        
+        .close-btn {
+          background: none;
+          border: none;
+          font-size: 1.5rem;
+          cursor: pointer;
+          color: var(--text-600);
+          padding: 0.25rem;
+          border-radius: 0.25rem;
+          transition: all 0.2s ease;
+        }
+        
+        .close-btn:hover {
+          background: var(--background-100);
+          color: var(--text-900);
+        }
+        
+        .modal-body {
+          padding: 1.5rem 2rem;
+        }
+        
+        .modal-body p {
+          margin: 0 0 1.5rem 0;
+          color: var(--text-700);
+          line-height: 1.6;
+        }
+        
+        .onboarding-steps {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+        
+        .step {
+          display: flex;
+          gap: 1rem;
+          align-items: flex-start;
+        }
+        
+        .step-icon {
+          font-size: 1.5rem;
+        }
+        
+        .step h4 {
+          margin: 0 0 0.25rem 0;
+          color: var(--text-900);
+          font-weight: 600;
+        }
+        
+        .step p {
+          margin: 0;
+          color: var(--text-600);
+          font-size: 0.9rem;
+        }
+        
+        .modal-footer {
+          display: flex;
+          gap: 1rem;
+          padding: 1rem 2rem 2rem 2rem;
+          justify-content: flex-end;
+        }
+        
+        @keyframes modalSlideIn {
+          from {
+            opacity: 0;
+            transform: translateY(-20px) scale(0.95);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+      `;
+      document.head.appendChild(styles);
+    }
+  }
+}
+
+/* ------------ Enhanced Search with Debouncing ------------ */
+class SearchManager {
+  constructor() {
+    this.searchInput = document.querySelector('#searchBox input');
+    this.debounceTimer = null;
+    this.init();
+  }
+
+  init() {
+    if (this.searchInput) {
+      this.searchInput.addEventListener('input', (e) => {
+        clearTimeout(this.debounceTimer);
+        this.debounceTimer = setTimeout(() => {
+          this.performSearch(e.target.value);
+        }, 300); // 300ms debounce
+      });
+
+      // Add search shortcuts
+      this.searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          this.clearSearch();
+        }
+      });
+    }
+  }
+
+  performSearch(query) {
+    if (!data || !data.nodes) return;
+
+    if (query.trim() === '') {
+      this.clearSearch();
+      return;
+    }
+
+    const matchingNodes = data.nodes.filter(node => 
+      node.label.toLowerCase().includes(query.toLowerCase()) ||
+      node.id.toLowerCase().includes(query.toLowerCase())
+    );
+
+    if (matchingNodes.length > 0) {
+      // Highlight matching nodes
+      const highlightNodes = matchingNodes.map(node => node.id);
+      
+      network.setSelection({
+        nodes: highlightNodes,
+        edges: []
+      });
+
+      // Focus on first match
+      if (highlightNodes.length > 0) {
+        network.focus(highlightNodes[0], {
+          scale: 1.5,
+          animation: {
+            duration: 1000,
+            easingFunction: "easeInOutQuad"
+          }
+        });
+      }
+
+      showMessage(`Found ${matchingNodes.length} matching node(s) 🔍`, 'success');
+    } else {
+      showMessage('No matching nodes found 🤷‍♂️', 'info');
+    }
+  }
+
+  clearSearch() {
+    this.searchInput.value = '';
+    if (network) {
+      network.setSelection({ nodes: [], edges: [] });
+      network.fit({
+        animation: {
+          duration: 1000,
+          easingFunction: "easeInOutQuad"
+        }
+      });
+    }
+  }
+}
+
+/* ------------ Tooltip Manager ------------ */
+class TooltipManager {
+  constructor() {
+    this.tooltip = null;
+    this.init();
+  }
+
+  init() {
+    this.addTooltips();
+  }
+
+  addTooltips() {
+    // Add tooltips to form fields
+    const tooltips = {
+      'input[name="id"]': 'Enter a unique identifier (e.g., "ai-basics", "python-101")',
+      'input[name="title"]': 'Enter a descriptive title that will be displayed on the node',
+      'input[name="parentId"]': 'Optional: Enter the ID of an existing node to connect to',
+      '#saveBtn': 'Save your current knowledge graph to persistent storage',
+      '#decayBtn': 'Apply daily natural decay to connection strengths (5% per day - weakens unused connections)',
+      '#exportBtn': 'Export your knowledge graph as a PDF document',
+      '#zoomInBtn': 'Zoom into the knowledge graph for better detail',
+      '#zoomOutBtn': 'Zoom out to see the bigger picture'
+    };
+
+    Object.entries(tooltips).forEach(([selector, text]) => {
+      const element = document.querySelector(selector);
+      if (element) {
+        element.setAttribute('title', text);
+        this.bindTooltipEvents(element);
+      }
+    });
+  }
+
+  bindTooltipEvents(element) {
+    element.addEventListener('mouseenter', (e) => this.showTooltip(e, element.getAttribute('title')));
+    element.addEventListener('mouseleave', () => this.hideTooltip());
+    element.addEventListener('focus', (e) => this.showTooltip(e, element.getAttribute('title')));
+    element.addEventListener('blur', () => this.hideTooltip());
+  }
+
+  showTooltip(e, text) {
+    this.hideTooltip(); // Remove any existing tooltip
+
+    this.tooltip = document.createElement('div');
+    this.tooltip.className = 'rekno-tooltip';
+    this.tooltip.textContent = text;
+    this.tooltip.style.cssText = `
+      position: absolute;
+      background: var(--background-800);
+      color: var(--text-100);
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      z-index: 10000;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      max-width: 250px;
+      line-height: 1.4;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      white-space: normal;
+    `;
+
+    document.body.appendChild(this.tooltip);
+
+    // Position tooltip
+    const rect = e.target.getBoundingClientRect();
+    const tooltipRect = this.tooltip.getBoundingClientRect();
+    
+    let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
+    let top = rect.top - tooltipRect.height - 8;
+
+    // Adjust if tooltip goes off screen
+    if (left < 8) left = 8;
+    if (left + tooltipRect.width > window.innerWidth - 8) {
+      left = window.innerWidth - tooltipRect.width - 8;
+    }
+    if (top < 8) {
+      top = rect.bottom + 8;
+    }
+
+    this.tooltip.style.left = left + 'px';
+    this.tooltip.style.top = top + 'px';
+
+    // Fade in
+    setTimeout(() => {
+      if (this.tooltip) this.tooltip.style.opacity = '1';
+    }, 10);
+  }
+
+  hideTooltip() {
+    if (this.tooltip) {
+      this.tooltip.remove();
+      this.tooltip = null;
+    }
+  }
+}
 
 /* ------------ Theme Management ------------ */
 class ThemeManager {
@@ -63,13 +427,51 @@ class ThemeManager {
   getThemeColors() {
     const isDark = this.currentTheme === 'dark';
     return {
-      nodeText: isDark ? '#f8fafc' : '#ffffff',
-      edgeText: isDark ? '#cbd5e1' : '#64748b',
+      // ✅ Fix 1: Improved node text contrast - darker color for light mode
+      nodeText: isDark ? '#f8fafc' : '#1e293b',
+      nodeTextLight: isDark ? '#f8fafc' : '#ffffff', // For colored node backgrounds
+      edgeText: isDark ? '#cbd5e1' : '#475569',
       networkBg: isDark ? 'rgba(15, 23, 42, 0.4)' : 'rgba(255, 255, 255, 0.25)',
       networkBorder: isDark ? '#475569' : '#e2e8f0',
       nodeBorder: isDark ? '#64748b' : '#475569',
       nodeHighlight: isDark ? '#94a3b8' : '#334155',
-      nodeStroke: isDark ? '#0f172a' : '#1e293b'
+      nodeStroke: isDark ? '#0f172a' : '#ffffff'
+    };
+  }
+}
+
+// ✅ Fix 1: Utility function for intelligent text color selection
+function getOptimalTextColor(backgroundColor, isDarkTheme = false) {
+  // Convert hex to RGB
+  const hex = backgroundColor.replace('#', '');
+  const r = parseInt(hex.substr(0, 2), 16);
+  const g = parseInt(hex.substr(2, 2), 16);
+  const b = parseInt(hex.substr(4, 2), 16);
+  
+  // Calculate luminance using W3C formula
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  
+  // Enhanced contrast logic considering theme
+  if (isDarkTheme) {
+    return luminance > 0.7 ? '#1e293b' : '#f8fafc';
+  } else {
+    return luminance > 0.5 ? '#1e293b' : '#ffffff';
+  }
+}
+
+// ✅ Fix 1: Enhanced text stroke for better readability
+function getTextStroke(backgroundColor, textColor, isDarkTheme = false) {
+  const isLightText = textColor === '#ffffff' || textColor === '#f8fafc';
+  
+  if (isDarkTheme) {
+    return {
+      width: isLightText ? 2 : 1,
+      color: isLightText ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.3)'
+    };
+  } else {
+    return {
+      width: isLightText ? 2 : 1,
+      color: isLightText ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.8)'
     };
   }
 }
@@ -232,10 +634,19 @@ async function fetchGraph() {
         font: {
           size: isRoot ? 16 : 14,
           face: 'Inter',
-          color: isRoot ? '#ffffff' : themeManager.getThemeColors().nodeText,
-          bold: isRoot,
-          strokeWidth: 2,
-          strokeColor: themeManager.currentTheme === 'dark' ? '#0f172a' : '#ffffff'
+          // ✅ Fix 1: Intelligent text color based on background and theme
+          color: isRoot ? '#ffffff' : getOptimalTextColor(nodeColor, themeManager.currentTheme === 'dark'),
+          weight: isRoot ? 'bold' : '600', // Reduced boldness for non-root nodes
+          strokeWidth: (() => {
+            const textColor = isRoot ? '#ffffff' : getOptimalTextColor(nodeColor, themeManager.currentTheme === 'dark');
+            const stroke = getTextStroke(nodeColor, textColor, themeManager.currentTheme === 'dark');
+            return stroke.width;
+          })(),
+          strokeColor: (() => {
+            const textColor = isRoot ? '#ffffff' : getOptimalTextColor(nodeColor, themeManager.currentTheme === 'dark');
+            const stroke = getTextStroke(nodeColor, textColor, themeManager.currentTheme === 'dark');
+            return stroke.color;
+          })()
         },
         borderWidth: 3,
         shadow: {
@@ -444,7 +855,7 @@ function setupEventHandlers() {
     try {
       const res = await fetch('/decay', { method: 'POST' });
       if (res.ok) {
-        showMessage('Decay applied! Connections weakened by 5% ⏲️', 'info');
+        showMessage('Daily decay applied! Connections weakened by 5% 📅', 'info');
         fetchGraph();
       } else {
         showMessage('Failed to apply decay', 'error');
@@ -820,8 +1231,68 @@ function exportToPDF() {
 
 /* ------------ Enhanced initialization ------------ */
 window.addEventListener('DOMContentLoaded', () => {
+  // Initialize managers
+  const themeManager = new ThemeManager();
+  const onboardingManager = new OnboardingManager();
+  const searchManager = new SearchManager();
+  const tooltipManager = new TooltipManager();
+  
   showMessage('Loading your graph... 📚', 'info');
   fetchGraph();
   setupEventHandlers();
   setupSearch();
+
+  // Add keyboard shortcuts
+  document.addEventListener('keydown', (e) => {
+    // Ctrl/Cmd + S to save
+    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+      e.preventDefault();
+      document.getElementById('saveBtn').click();
+    }
+    
+    // Ctrl/Cmd + F to focus search
+    if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+      e.preventDefault();
+      const searchInput = document.querySelector('#searchBox input');
+      if (searchInput) {
+        searchInput.focus();
+        searchInput.select();
+      }
+    }
+    
+    // ? key to open guide
+    if (e.key === '?' && !e.target.matches('input, textarea')) {
+      window.open('guide.html', '_blank');
+    }
+  });
+
+  // Add performance optimization
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      if (network) {
+        network.redraw();
+        network.fit();
+      }
+    }, 250);
+  });
+
+  // Add visibility change handler for better performance
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      // Pause any expensive operations when tab is hidden
+      if (network) {
+        network.setOptions({ physics: { enabled: false } });
+      }
+    } else {
+      // Resume when tab becomes visible
+      if (network) {
+        network.setOptions({ physics: { enabled: true } });
+        setTimeout(() => {
+          network.setOptions({ physics: { enabled: false } });
+        }, 3000); // Disable physics after 3 seconds
+      }
+    }
+  });
 });

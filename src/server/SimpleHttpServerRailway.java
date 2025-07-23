@@ -136,12 +136,12 @@ public class SimpleHttpServerRailway {
 
         /* ---------- REST: POST /decay ---------- */
         server.createContext("/decay", ex -> {
-            graph.decayAllConnections(0.05f);  // 5% forgetting
+            graph.decayAllConnections(0.05f);  // 5% daily forgetting
             
             // Auto-save after decay
             try {
                 KnowledgePersistence.saveToFile(graph, GRAPH_PATH);
-                System.out.println("[auto-save] Graph saved after decay");
+                System.out.println("[auto-save] Graph saved after daily decay");
             } catch (Exception e) {
                 System.err.println("[auto-save] Failed to save after decay: " + e.getMessage());
             }

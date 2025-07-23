@@ -1,4 +1,4 @@
-/* Modern Rekno UI/UX with Professional Design */
+/* Modern Rekno UI/UX with Professional Design - Enhanced */
 
 /* Enhanced Light Theme Variables */
 :root {
@@ -17,40 +17,104 @@
   /* Success Colors */
   --success-50: #ecfdf5;
   --success-100: #d1fae5;
+  --success-200: #a7f3d0;
+  --success-300: #6ee7b7;
+  --success-400: #34d399;
   --success-500: #10b981;
   --success-600: #059669;
   --success-700: #047857;
+  --success-800: #065f46;
+  --success-900: #064e3b;
   
   /* Warning Colors */
   --warning-50: #fffbeb;
   --warning-100: #fef3c7;
+  --warning-200: #fde68a;
+  --warning-300: #fcd34d;
+  --warning-400: #fbbf24;
   --warning-500: #f59e0b;
   --warning-600: #d97706;
+  --warning-700: #b45309;
+  --warning-800: #92400e;
+  --warning-900: #78350f;
   
-  /* Danger Colors */
-  --danger-50: #fef2f2;
-  --danger-100: #fee2e2;
-  --danger-500: #ef4444;
-  --danger-600: #dc2626;
+  /* Error/Danger Colors */
+  --error-50: #fef2f2;
+  --error-100: #fee2e2;
+  --error-200: #fecaca;
+  --error-300: #fca5a5;
+  --error-400: #f87171;
+  --error-500: #ef4444;
+  --error-600: #dc2626;
+  --error-700: #b91c1c;
+  --error-800: #991b1b;
+  --error-900: #7f1d1d;
   
-  /* Theme-specific colors - Light */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8fafc;
-  --bg-tertiary: #f1f5f9;
-  --bg-quaternary: #e2e8f0;
+  /* Neutral Colors */
+  --neutral-50: #f8fafc;
+  --neutral-100: #f1f5f9;
+  --neutral-200: #e2e8f0;
+  --neutral-300: #cbd5e1;
+  --neutral-400: #94a3b8;
+  --neutral-500: #64748b;
+  --neutral-600: #475569;
+  --neutral-700: #334155;
+  --neutral-800: #1e293b;
+  --neutral-900: #0f172a;
+  
+  /* Semantic Light Theme Colors */
+  --background-white: #ffffff;
+  --background-50: #f8fafc;
+  --background-100: #f1f5f9;
+  --background-200: #e2e8f0;
+  --background-800: #1e293b;
+  --background-900: #0f172a;
+  
+  --text-50: #f8fafc;
+  --text-100: #f1f5f9;
+  --text-200: #e2e8f0;
+  --text-300: #cbd5e1;
+  --text-400: #94a3b8;
+  --text-500: #64748b;
+  --text-600: #475569;
+  --text-700: #334155;
+  --text-800: #1e293b;
+  --text-900: #0f172a;
+  
+  --border-100: #f1f5f9;
+  --border-200: #e2e8f0;
+  --border-300: #cbd5e1;
+  --border-400: #94a3b8;
+  
+  /* Legacy Variables for Compatibility */
+  --bg-primary: var(--background-white);
+  --bg-secondary: var(--background-50);
+  --bg-tertiary: var(--background-100);
+  --bg-quaternary: var(--background-200);
   --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   --bg-glass: rgba(255, 255, 255, 0.25);
   --bg-glass-hover: rgba(255, 255, 255, 0.35);
   
-  --text-primary: #0f172a;
-  --text-secondary: #334155;
-  --text-tertiary: #64748b;
-  --text-quaternary: #94a3b8;
+  --text-primary: var(--text-900);
+  --text-secondary: var(--text-700);
+  --text-tertiary: var(--text-600);
+  --text-quaternary: var(--text-500);
   
-  --border-light: #f1f5f9;
-  --border-normal: #e2e8f0;
-  --border-medium: #cbd5e1;
-  --border-strong: #94a3b8;
+  /* ✅ Fix 4: Enhanced theme-aware color system */
+  --text-light-primary: #fafafa;
+  --bg-light: #ffffff;
+  --bg-dark: #121212;
+  --node-label-dark: #fff;
+  --node-label-light: #111;
+  
+  /* Enhanced node text variables */
+  --node-text-contrast: var(--text-900);
+  --node-text-light: #ffffff;
+  
+  --border-light: var(--border-100);
+  --border-normal: var(--border-200);
+  --border-medium: var(--border-300);
+  --border-strong: var(--border-400);
   
   --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -73,8 +137,33 @@
 
 /* Enhanced Dark Theme Variables */
 [data-theme="dark"] {
-  --bg-primary: #0f172a;
-  --bg-secondary: #1e293b;
+  /* Dark Theme Semantic Colors */
+  --background-white: #1e293b;
+  --background-50: #0f172a;
+  --background-100: #1e293b;
+  --background-200: #334155;
+  --background-800: #1e293b;
+  --background-900: #0f172a;
+  
+  --text-50: #0f172a;
+  --text-100: #1e293b;
+  --text-200: #334155;
+  --text-300: #475569;
+  --text-400: #64748b;
+  --text-500: #94a3b8;
+  --text-600: #cbd5e1;
+  --text-700: #e2e8f0;
+  --text-800: #f1f5f9;
+  --text-900: #f8fafc;
+  
+  --border-100: #334155;
+  --border-200: #475569;
+  --border-300: #64748b;
+  --border-400: #94a3b8;
+  
+  /* Legacy Variables for Dark Theme */
+  --bg-primary: #1e293b;
+  --bg-secondary: #0f172a;
   --bg-tertiary: #334155;
   --bg-quaternary: #475569;
   --bg-gradient: linear-gradient(135deg, #1e293b 0%, #334155 100%);
@@ -85,6 +174,17 @@
   --text-secondary: #e2e8f0;
   --text-tertiary: #cbd5e1;
   --text-quaternary: #94a3b8;
+  
+  /* ✅ Fix 4: Enhanced dark theme color overrides */
+  --text-light-primary: #e0e0e0;
+  --bg-light: #1e293b;
+  --bg-dark: #0f172a;
+  --node-label-dark: #e0e0e0;
+  --node-label-light: #1e293b;
+  
+  /* Enhanced node text variables for dark mode */
+  --node-text-contrast: #f8fafc;
+  --node-text-light: #e2e8f0;
   
   --border-light: #334155;
   --border-normal: #475569;
@@ -193,6 +293,36 @@ h1 {
   margin: 0;
   letter-spacing: -0.02em;
   line-height: 1.1;
+}
+
+/* Header Controls */
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.guide-btn {
+  background: var(--success-600);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+
+.guide-btn:hover {
+  background: var(--success-700);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
 }
 
 /* Light mode heading */
@@ -366,6 +496,158 @@ h1 {
 #addForm input::placeholder {
   color: var(--text-quaternary);
   font-weight: 400;
+}
+
+/* Enhanced Form UX Improvements */
+#addForm input:valid {
+  border-color: var(--success-400);
+}
+
+#addForm input:invalid:not(:placeholder-shown) {
+  border-color: var(--error-400);
+}
+
+#addForm input:focus::placeholder {
+  opacity: 0.7;
+}
+
+/* Loading State for Buttons */
+.btn-loading {
+  position: relative;
+  color: transparent !important;
+  pointer-events: none;
+}
+
+.btn-loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  color: white;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Success/Error States */
+.form-success {
+  border-color: var(--success-500) !important;
+  background: var(--success-50) !important;
+}
+
+.form-error {
+  border-color: var(--error-500) !important;
+  background: var(--error-50) !important;
+}
+
+/* Enhanced Network Container */
+#networkContainer {
+  position: relative;
+}
+
+#network {
+  border: 2px solid var(--border-200);
+  border-radius: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+#network:hover {
+  border-color: var(--primary-300);
+}
+
+/* ✅ Fix 1: Enhanced Node Label Styling for Better Contrast */
+.vis-network .node-label {
+  font-weight: 600 !important; /* Reduced from 700 or 800 */
+  color: var(--node-text-contrast) !important;
+  text-shadow: 0px 1px 2px rgba(0,0,0,0.3) !important; /* Improves contrast on all backgrounds */
+}
+
+[data-theme="light"] .vis-network .node-label {
+  color: var(--node-label-light) !important;
+  text-shadow: 0px 1px 2px rgba(255,255,255,0.8) !important;
+}
+
+[data-theme="dark"] .vis-network .node-label {
+  color: var(--node-label-dark) !important;
+  text-shadow: 0px 1px 2px rgba(0,0,0,0.8) !important;
+}
+
+/* ✅ Fix 2: Decay Bar Progress Enhancement */
+.decay-bar {
+  position: relative !important;
+  height: 20px !important; /* Increased from 18px */
+  border-radius: 10px !important;
+  overflow: visible !important; /* Changed from hidden */
+  margin: 8px 0 !important; /* Added margin for spacing */
+}
+
+.decay-bar span {
+  position: absolute !important;
+  right: 8px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  font-size: 11px !important; /* Reduced from 12px */
+  font-weight: 600 !important;
+  color: white !important;
+  background: rgba(0,0,0,0.7) !important; /* Darker background for better contrast */
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  white-space: nowrap !important;
+  z-index: 10 !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3) !important;
+}
+
+/* ✅ Fix 3: Dark mode card content improvements */
+.card-content-dark {
+  color: #f4f4f4 !important; /* High contrast text */
+  background: rgba(30,30,30,0.95) !important; /* Darker background */
+}
+
+[data-theme="dark"] .guide-section h3,
+[data-theme="dark"] .guide-section h4,
+[data-theme="dark"] .guide-section p,
+[data-theme="dark"] .feature-item h4,
+[data-theme="dark"] .feature-item p,
+[data-theme="dark"] .step-content h3,
+[data-theme="dark"] .step-content p {
+  color: var(--text-light-primary) !important; /* Ensure high contrast in dark mode */
+}
+
+/* Accessibility Improvements */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focus visible improvements */
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--primary-400);
+  outline-offset: 2px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* Modern Button System */
@@ -837,13 +1119,27 @@ button.loading::after {
     padding: 1.5rem;
   }
   
+  .header-controls {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  
+  .guide-btn {
+    flex: 1;
+    max-width: 180px;
+    min-width: 140px;
+  }
+
   h1 {
     font-size: clamp(1.25rem, 5vw, 2rem);
   }
-  
+
   .theme-toggle {
-    width: 100%;
-    max-width: 200px;
+    flex: 1;
+    max-width: 180px;
+    min-width: 140px;
   }
   
   #addForm {

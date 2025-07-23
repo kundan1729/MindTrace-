@@ -25,9 +25,9 @@ public class Main {
                 java.util.concurrent.Executors.newSingleThreadScheduledExecutor();
             
             scheduler.scheduleAtFixedRate(() -> {
-                finalGraph.decayAllConnections(0.05f);   // 5% decay
-                System.out.println("[decay] connections weakened by 5%");
-            }, 1, 1, java.util.concurrent.TimeUnit.HOURS);
+                finalGraph.decayAllConnections(0.05f);   // 5% daily decay
+                System.out.println("[daily-decay] connections weakened by 5%");
+            }, 24, 24, java.util.concurrent.TimeUnit.HOURS); // Run every 24 hours
             
             Runtime.getRuntime().addShutdownHook(new Thread(scheduler::shutdown));
             

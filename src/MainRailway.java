@@ -75,8 +75,8 @@ public class MainRailway {
                 java.util.concurrent.Executors.newSingleThreadScheduledExecutor();
             
             scheduler.scheduleAtFixedRate(() -> {
-                finalGraph.decayAllConnections(0.05f);   // 5% decay
-                System.out.println("[decay] connections weakened by 5%");
+                finalGraph.decayAllConnections(0.05f);   // 5% daily decay
+                System.out.println("[daily-decay] connections weakened by 5%");
                 
                 // Auto-save after decay
                 try {
@@ -85,7 +85,7 @@ public class MainRailway {
                 } catch (Exception e) {
                     System.err.println("[auto-save] failed: " + e.getMessage());
                 }
-            }, 1, 1, java.util.concurrent.TimeUnit.HOURS);
+            }, 24, 24, java.util.concurrent.TimeUnit.HOURS); // Run every 24 hours
             
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 try {
