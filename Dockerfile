@@ -49,5 +49,5 @@ USER rekno
 EXPOSE $PORT
 ENV PORT=8000
 
-# Run the application
-CMD ["java", "-cp", ".:out:lib/gson-2.10.1.jar", "Main"]
+# Run the application with optimized JVM settings for Render
+CMD ["java", "-Xmx128m", "-XX:+UseSerialGC", "-XX:+TieredCompilation", "-XX:TieredStopAtLevel=1", "-cp", ".:out:lib/gson-2.10.1.jar", "Main"]

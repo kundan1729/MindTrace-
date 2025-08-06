@@ -5,7 +5,9 @@ services:
     plan: free
     buildCommand: ""
     startCommand: ""
-    healthCheckPath: /
+    healthCheckPath: /health
+    healthCheckTimeout: 300
+    healthCheckInterval: 30
     envVars:
       - key: JAVA_OPTS
-        value: -Xmx256m
+        value: -Xmx128m -XX:+UseSerialGC

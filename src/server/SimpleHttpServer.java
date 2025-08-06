@@ -128,6 +128,18 @@ public class SimpleHttpServer {
             ex.sendResponseHeaders(200,-1);
         });
 
+        /* ---------- Health check endpoint ---------- */
+        server.createContext("/health", ex -> {
+            if ("HEAD".equals(ex.getRequestMethod())) {
+                ex.sendResponseHeaders(200, -1);
+                return;
+            }
+            String response = "{\"status\":\"ok\",\"port\":" + port + "}";
+            ex.getResponseHeaders().add("Content-Type", "application/json");
+            ex.sendResponseHeaders(200, response.getBytes().length);
+            try (OutputStream os = ex.getResponseBody()) { os.write(response.getBytes()); }
+        });
+
         /* ---------- Static files (/, /index.html, /style.css, /script.js) ---------- */
         server.createContext("/", ex -> {
             String path = ex.getRequestURI().getPath();
