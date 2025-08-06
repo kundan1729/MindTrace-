@@ -28,6 +28,12 @@ public class SimpleHttpServer {
 
         /* ---------- REST: GET /graph ---------- */
         server.createContext("/graph", ex -> {
+            if ("HEAD".equals(ex.getRequestMethod())) {
+                ex.getResponseHeaders().add("Content-Type", "application/json");
+                ex.sendResponseHeaders(200, -1);
+                return;
+            }
+            
             String json = gson.toJson(graph.getAllNodes());
             ex.getResponseHeaders().add("Content-Type", "application/json");
             ex.sendResponseHeaders(200, json.getBytes().length);
@@ -132,8 +138,14 @@ public class SimpleHttpServer {
             String mime = path.endsWith(".js") ? "application/javascript" :
                           path.endsWith(".css") ? "text/css" : "text/html";
 
-            byte[] bytes = java.nio.file.Files.readAllBytes(file.toPath());
             ex.getResponseHeaders().add("Content-Type", mime);
+            
+            if ("HEAD".equals(ex.getRequestMethod())) {
+                ex.sendResponseHeaders(200, -1);
+                return;
+            }
+
+            byte[] bytes = java.nio.file.Files.readAllBytes(file.toPath());
             ex.sendResponseHeaders(200, bytes.length);
             try (OutputStream os = ex.getResponseBody()) { os.write(bytes); }
         });
