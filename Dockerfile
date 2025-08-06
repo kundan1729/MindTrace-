@@ -45,8 +45,9 @@ RUN chown -R rekno:rekno /app
 # Switch to non-root user
 USER rekno
 
-# Expose port
-EXPOSE 8000
+# Expose port (Render will set PORT env var dynamically)
+EXPOSE $PORT
+ENV PORT=8000
 
 # Run the application
 CMD ["java", "-cp", ".:out:lib/gson-2.10.1.jar", "Main"]

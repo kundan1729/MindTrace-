@@ -12,7 +12,18 @@ import com.sun.net.httpserver.*;
 public class SimpleHttpServer {
 
     public static void start(KnowledgeGraph graph) throws IOException {
-        HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
+        // Get port from environment variable (Render sets this) or default to 8000
+        String portStr = System.getenv("PORT");
+        int port = 8000; // default fallback
+        if (portStr != null && !portStr.isEmpty()) {
+            try {
+                port = Integer.parseInt(portStr);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid PORT environment variable, using default 8000");
+            }
+        }
+        
+        HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
         Gson gson = new Gson();
 
         /* ---------- REST: GET /graph ---------- */
@@ -185,7 +196,7 @@ server.createContext("/deleteNode", ex -> {
 });
 
 
-        System.out.println("🌐  Server running →  http://localhost:8000");
+        System.out.println("🌐  Server running →  http://localhost:" + port);
         server.start();
     }
 }

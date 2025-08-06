@@ -19,7 +19,7 @@ Thumbs.db
 # Ignore logs
 *.log
 
-# Ignore local Docker files (keep Railway-specific ones)
+# Ignore local Docker files
 Dockerfile
 Dockerfile.distroless
 
