@@ -1,4 +1,4 @@
-# 🧠 Rekno
+# 🧠 Mind trace
 
 A modern, beautiful web-based application for creating and managing a personal knowledge graph where concepts are connected with strength values that decay over time, simulating the natural forgetting process.
 
